@@ -1,0 +1,16 @@
+# Docker
+*.log
+
+# n8n
+n8n_data/
+.n8n/
+
+# PostgreSQL
+postgres_data/
+
+# Environment
+.env
+
+# OS
+.DS_Store
+Thumbs.db
