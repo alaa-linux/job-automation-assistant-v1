@@ -32,6 +32,9 @@ services:
       - N8N_PORT=5678
       - N8N_PROTOCOL=http
       - TZ=Europe/Paris
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
     volumes:
       - n8n_data:/home/node/.n8n
     networks:

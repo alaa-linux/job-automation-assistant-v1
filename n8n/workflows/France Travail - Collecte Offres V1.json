@@ -1,0 +1,469 @@
+{
+  "name": "France Travail - Collecte Offres V1",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "157122b8-721e-4cd5-802b-2c567e40bc9b",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "url": "https://jsonplaceholder.typicode.com/posts/1",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "8885242a-14bf-4ba7-b736-84ccf6c6e270",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8d7a8e3e-c381-4bff-9fb8-5e1e487fa80c",
+              "name": "Nom : test",
+              "value": "={{ \"Post N°\" + $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "1c5f6daa-78e6-4f4c-bf6d-d1ef442a4ecd",
+              "name": "Nom : date_execution",
+              "value": "={{ $now }}",
+              "type": "string"
+            },
+            {
+              "id": "24354b9b-79c7-497b-9387-64ee0fe9ac2b",
+              "name": "Nom : workflow_name",
+              "value": "={{ $workflow.name }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        416,
+        0
+      ],
+      "id": "4e7470b6-1c0e-4626-9153-2d8c10f8c751",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "url": "https://api.francetravail.io/partenaire/offresdemploi/v2/offres/search",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "motsCles",
+              "value": "informatique"
+            },
+            {
+              "name": "range",
+              "value": "1-5"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer LmZmY-f11xqT3Kr4Uqeaqwpsohk"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        624,
+        0
+      ],
+      "id": "6ef923e3-3744-46ef-8549-428b0944644f",
+      "name": "France Travail - Offres"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4600da3b-0953-4810-acd3-80a3f046aca6",
+              "name": "nombre_offres",
+              "value": "={{ $json.resultats.length }}",
+              "type": "string"
+            },
+            {
+              "id": "504d7f43-4409-4213-9579-9fa4f5ea1df5",
+              "name": "range_utilise",
+              "value": "={{ \"0-4\" }}",
+              "type": "string"
+            },
+            {
+              "id": "a286f54a-6d05-47e9-a904-50984ad5513f",
+              "name": "premiere_offre",
+              "value": "={{ $json.resultats[0].intitule }}",
+              "type": "string"
+            },
+            {
+              "id": "8b4c3225-139a-432c-9f9d-3e2c19672750",
+              "name": "intitule_1",
+              "value": "={{ $json.resultats[0].intitule }}",
+              "type": "string"
+            },
+            {
+              "id": "0384931d-4c14-4059-a67e-de8db276ba51",
+              "name": "intitule_2",
+              "value": "={{ $json.resultats[1].intitule }}",
+              "type": "string"
+            },
+            {
+              "id": "bf95ae52-0d13-41b3-9745-9c95016d41fa",
+              "name": "intitule_3",
+              "value": "={{ $json.resultats[2].intitule }}",
+              "type": "string"
+            },
+            {
+              "id": "1d072d54-fbcc-4ca2-bfd6-36882adc6ee7",
+              "name": " entreprise_1",
+              "value": "={{ $json.resultats[0].entreprise.nom }}",
+              "type": "string"
+            },
+            {
+              "id": "7c6c4eac-a1e9-47d4-82ea-d2696a33119f",
+              "name": "entreprise_2",
+              "value": "={{ $json.resultats[1].entreprise.nom }}",
+              "type": "string"
+            },
+            {
+              "id": "15e92cd3-e546-406a-b9b2-b64840eed1ed",
+              "name": "entreprise_3",
+              "value": "={{ $json.resultats[2].entreprise.nom }}",
+              "type": "string"
+            },
+            {
+              "id": "85caef38-b284-4476-b707-bdbfbbf3f65a",
+              "name": "lieu_1",
+              "value": "={{ $json.resultats[0].lieuTravail.libelle }}",
+              "type": "string"
+            },
+            {
+              "id": "a66cd502-8b26-4131-9119-4831bd6930db",
+              "name": "lieu_2",
+              "value": "={{ $json.resultats[1].lieuTravail.libelle }}",
+              "type": "string"
+            },
+            {
+              "id": "7d99a4f8-05ab-4c53-bd5d-3f4ed68ce3c0",
+              "name": "lieu_3",
+              "value": "={{ $json.resultats[2].lieuTravail.libelle }}",
+              "type": "string"
+            },
+            {
+              "id": "da4b449b-6e1e-4fa4-afbb-6c650fe5d391",
+              "name": "contrat_1",
+              "value": "={{ $json.resultats[0].typeContrat }}",
+              "type": "string"
+            },
+            {
+              "id": "6db23978-dc0a-43a4-acb0-6eab564881d9",
+              "name": "contrat_2",
+              "value": "={{ $json.resultats[1].typeContrat }}",
+              "type": "string"
+            },
+            {
+              "id": "888d75d2-6a33-4030-ab00-bee45c952e4c",
+              "name": "contrat_3",
+              "value": "={{ $json.resultats[2].typeContrat }}",
+              "type": "string"
+            },
+            {
+              "id": "4f99b903-b71d-413d-8aae-bdfbb3b430b0",
+              "name": "description_1",
+              "value": "={{ $json.resultats[0].description }}",
+              "type": "string"
+            },
+            {
+              "id": "bdacda02-3dea-42aa-8f9b-b64d35f5454f",
+              "name": "longueur_description_1",
+              "value": "={{ $json.resultats[0].description.length }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1456,
+        0
+      ],
+      "id": "9b9d6ab7-1bb7-4779-b12b-911c8a3444d2",
+      "name": "Analyse Résultats"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "41d63bee-510a-4f2d-80ee-d1db2c9c557e",
+              "name": "offre_id",
+              "value": "={{ $('France Travail - Offres').item.json.resultats[0].id }}",
+              "type": "string"
+            },
+            {
+              "id": "64a36bc8-8c29-47dc-8d61-457f22c5bd18",
+              "name": "titre",
+              "value": "={{ $('France Travail - Offres').item.json.resultats[0].intitule }}",
+              "type": "string"
+            },
+            {
+              "id": "15e37d0f-7174-45c0-928f-7dc33eafd14d",
+              "name": "entreprise",
+              "value": "={{ $('France Travail - Offres').item.json.resultats[0].entreprise.nom }}",
+              "type": "string"
+            },
+            {
+              "id": "3e15e8e7-bc02-4592-870e-399ddfba7a5f",
+              "name": "lieu",
+              "value": "={{ $('France Travail - Offres').item.json.resultats[0].lieuTravail.libelle }}",
+              "type": "string"
+            },
+            {
+              "id": "6d1274ce-64c8-4ded-8423-1c3e6619dfdb",
+              "name": "contrat",
+              "value": "={{ $('France Travail - Offres').item.json.resultats[0].typeContrat }}",
+              "type": "string"
+            },
+            {
+              "id": "98f84e0c-667b-4d32-b8c3-8f0816adae87",
+              "name": "experience",
+              "value": "={{ $('France Travail - Offres').item.json.resultats[0].experienceLibelle }}",
+              "type": "string"
+            },
+            {
+              "id": "2039bcfb-2a74-4fdc-956f-706f4054f148",
+              "name": "url",
+              "value": "={{ $('France Travail - Offres').item.json.resultats[0].origineOffre.urlOrigine }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1664,
+        0
+      ],
+      "id": "4023118a-da2d-4ca8-9208-55e44d512fc3",
+      "name": "Structure Simplifiée"
+    },
+    {
+      "parameters": {
+        "jsCode": "const offre = $('France Travail - Offres').item.json.resultats[0];\n\nconst titre = (offre.intitule || \"\").toLowerCase();\nconst description = (offre.description || \"\").toLowerCase();\nconst typeContrat = (offre.typeContrat || \"\").toLowerCase();\nconst typeContratLibelle = (offre.typeContratLibelle || \"\").toLowerCase();\nconst alternanceApi = offre.alternance === true;\n\nconst motsCles = [\n  \"devops\",\n  \"linux\",\n  \"docker\",\n  \"kubernetes\",\n  \"k8s\",\n  \"terraform\",\n  \"ansible\",\n  \"gitlab\",\n  \"github actions\",\n  \"ci/cd\",\n  \"aws\",\n  \"azure\",\n  \"gcp\",\n  \"cloud\"\n];\n\nconst motsClesAlternance = [\n  \"alternance\",\n  \"apprentissage\",\n  \"contrat apprentissage\",\n  \"professionnalisation\",\n  \"contrat pro\",\n  \"stage\"\n];\n\nconst texteGlobal = `${titre} ${description} ${typeContrat} ${typeContratLibelle}`;\n\nconst motsTrouves = motsCles.filter(mot =>\n  texteGlobal.includes(mot.toLowerCase())\n);\n\nconst motsAlternanceTrouves = motsClesAlternance.filter(mot =>\n  texteGlobal.includes(mot.toLowerCase())\n);\n\nconst alternanceDetectee =\n  alternanceApi ||\n  motsAlternanceTrouves.length > 0;\n\nreturn [\n  {\n    json: {\n      titre: offre.intitule,\n      contrat: offre.typeContrat,\n      contrat_libelle: offre.typeContratLibelle,\n      alternance_api: alternanceApi,\n      mots_cles_trouves: motsTrouves,\n      nombre_mots_cles: motsTrouves.length,\n      mots_alternance_trouves: motsAlternanceTrouves,\n      alternance_detectee: alternanceDetectee\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1808,
+        -144
+      ],
+      "id": "55ee4531-d1f8-4715-8cfc-0cd0efbfa01a",
+      "name": "Moteur Mots Clés"
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $('France Travail - Offres').item.json;\nconst offres = data.resultats || [];\n\nconst vus = new Set();\nconst offresUniques = [];\nconst doublons = [];\n\nfor (const offre of offres) {\n  const id = offre.id || \"\";\n  const url = offre.origineOffre?.urlOrigine || \"\";\n  const cle = id || url;\n\n  if (!cle) continue;\n\n  if (vus.has(cle)) {\n    doublons.push({\n      id,\n      url,\n      intitule: offre.intitule\n    });\n  } else {\n    vus.add(cle);\n    offresUniques.push(offre);\n  }\n}\n\nreturn [\n  {\n    json: {\n      nombre_initial: offres.length,\n      nombre_uniques: offresUniques.length,\n      doublons_supprimes: doublons.length,\n      ids_uniques: offresUniques.map(o => o.id),\n      doublons,\n      offres_uniques: offresUniques\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        832,
+        0
+      ],
+      "id": "1b56a242-48f5-41b8-bfc7-8457e61bba94",
+      "name": "Suppression Doublons"
+    },
+    {
+      "parameters": {
+        "jsCode": "const offre = $('France Travail - Offres').item.json.resultats[0];\n\nconst texte =\n`${offre.intitule}\n${offre.description}\n${offre.typeContrat}\n${offre.typeContratLibelle}`.toLowerCase();\n\nlet score = 0;\n\nconst devops = [\n  \"devops\",\n  \"gitlab\",\n  \"github actions\",\n  \"jenkins\",\n  \"terraform\",\n  \"ansible\",\n  \"ci/cd\",\n  \"linux\"\n];\n\nconst cloud = [\n  \"aws\",\n  \"azure\",\n  \"gcp\",\n  \"cloud\"\n];\n\nconst kubernetes = [\n  \"kubernetes\",\n  \"k8s\",\n  \"helm\",\n  \"openshift\",\n  \"eks\",\n  \"aks\"\n];\n\nconst docker = [\n  \"docker\",\n  \"container\",\n  \"containers\",\n  \"podman\"\n];\n\nconst alternance = [\n  \"alternance\",\n  \"apprentissage\",\n  \"contrat pro\",\n  \"professionnalisation\"\n];\n\nif (devops.some(m => texte.includes(m))) score += 40;\nif (cloud.some(m => texte.includes(m))) score += 20;\nif (kubernetes.some(m => texte.includes(m))) score += 15;\nif (docker.some(m => texte.includes(m))) score += 15;\nif (alternance.some(m => texte.includes(m))) score += 10;\n\nreturn [\n  {\n    json: {\n      titre: offre.intitule,\n      score_pertinence: score\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1936,
+        0
+      ],
+      "id": "3cc391cc-6ed0-436c-959d-651334d4744e",
+      "name": "Score Pertinence"
+    },
+    {
+      "parameters": {
+        "jsCode": "const offres = $('Suppression Doublons').item.json.offres_uniques || [];\n\nconst categories = {\n  devops: [\"devops\", \"gitlab\", \"github actions\", \"jenkins\", \"terraform\", \"ansible\", \"ci/cd\", \"linux\", \"infrastructure\"],\n  cloud: [\"aws\", \"azure\", \"gcp\", \"cloud\"],\n  kubernetes: [\"kubernetes\", \"k8s\", \"helm\", \"openshift\", \"eks\", \"aks\"],\n  docker: [\"docker\", \"container\", \"containers\", \"podman\"],\n  alternance: [\"alternance\", \"apprentissage\", \"contrat pro\", \"professionnalisation\"]\n};\n\nfunction contientUnMot(texte, liste) {\n  return liste.some(mot => texte.includes(mot));\n}\n\nconst offresAvecScore = offres.map(offre => {\n  const texte = `\n    ${offre.intitule || \"\"}\n    ${offre.description || \"\"}\n    ${offre.typeContrat || \"\"}\n    ${offre.typeContratLibelle || \"\"}\n  `.toLowerCase();\n\n  let score = 0;\n\n  if (contientUnMot(texte, categories.devops)) score += 40;\n  if (contientUnMot(texte, categories.cloud)) score += 20;\n  if (contientUnMot(texte, categories.kubernetes)) score += 15;\n  if (contientUnMot(texte, categories.docker)) score += 15;\n  if (contientUnMot(texte, categories.alternance) || offre.alternance === true) score += 10;\n\n  return {\n    offre_id: offre.id,\n    titre: offre.intitule,\n    entreprise: offre.entreprise?.nom || \"\",\n    lieu: offre.lieuTravail?.libelle || \"\",\n    contrat: offre.typeContrat || \"\",\n    experience: offre.experienceLibelle || \"\",\n    score_pertinence: score,\n    url: offre.origineOffre?.urlOrigine || \"\"\n  };\n});\n\noffresAvecScore.sort((a, b) => b.score_pertinence - a.score_pertinence);\n\nreturn [\n  {\n    json: {\n      nombre_offres: offresAvecScore.length,\n      offres_triees: offresAvecScore\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1040,
+        0
+      ],
+      "id": "126ecc7a-911f-45f6-9d32-c4581327a50f",
+      "name": "Tri Offres"
+    },
+    {
+      "parameters": {
+        "jsCode": "const offresTriees = $('Tri Offres').item.json.offres_triees || [];\n\nconst limite = 3;\n\nconst topOffres = offresTriees.slice(0, limite);\n\nreturn [\n  {\n    json: {\n      limite,\n      nombre_total: offresTriees.length,\n      nombre_selectionne: topOffres.length,\n      top_offres: topOffres\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1248,
+        0
+      ],
+      "id": "15e19654-a510-40f6-866f-c4d9162a631c",
+      "name": "Top Offres"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "France Travail - Offres",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "France Travail - Offres": {
+      "main": [
+        [
+          {
+            "node": "Suppression Doublons",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyse Résultats": {
+      "main": [
+        [
+          {
+            "node": "Structure Simplifiée",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structure Simplifiée": {
+      "main": [
+        [
+          {
+            "node": "Moteur Mots Clés",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Suppression Doublons": {
+      "main": [
+        [
+          {
+            "node": "Tri Offres",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Moteur Mots Clés": {
+      "main": [
+        [
+          {
+            "node": "Score Pertinence",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tri Offres": {
+      "main": [
+        [
+          {
+            "node": "Top Offres",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Top Offres": {
+      "main": [
+        [
+          {
+            "node": "Analyse Résultats",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "9a05c6c0-a9c5-460a-b3b0-4595843bd484",
+  "meta": {
+    "instanceId": "b10fee663d5659ae57fa70840d61cba0e435e56b8e4ff792608c41ed73405ff9"
+  },
+  "nodeGroups": [],
+  "id": "cSQm4gW1QVFgA7rp",
+  "tags": []
+}
