@@ -75,6 +75,25 @@ Send an Email
 PostgreSQL : workflow_logs
 ```
 
+## Captures d'écran
+
+### Workflow complet n8n
+
+Le workflow automatise la collecte, le filtrage, le scoring, le stockage PostgreSQL et l'envoi des offres par email.
+
+![Workflow Global](docs/images/workflow-global.png)
+
+---
+
+### Exemple de Top Offres sélectionnées
+
+Après filtrage et calcul du score de pertinence, seules les meilleures offres sont conservées.
+
+![Top Offres](docs/images/top-offres-json.png)
+
+---
+
+
 ### Gestion des erreurs
 
 ```text
